@@ -1,0 +1,63 @@
+<script>
+    function add_item() {
+        $("#add_status").val("");
+        showFrameDialog({
+            content: ['{{ actions.add.url }}',],
+            title: '{{ actions.add.title }}',
+            area: ['900px', '{{ actions.add.size_y |default:"450px" }}'],
+            closeBtn: 1,
+            end: function () {
+                var add_status = $("#add_status").val();
+                if ("success" == add_status) {
+                    show_info_msg("保存成功");
+                    current_table.ajax.reload()
+                } else if ("fail" == add_status) {
+                    show_info_msg("保存失败");
+                }
+            }
+        });
+    }
+
+    function delete_item(item_id) {
+        layer.confirm('确认删除该项吗?', {
+            btn: ['提交', '取消'],
+        }, function (index) {
+            $.ajax({
+                type: 'POST',
+                url: "{{ actions.delete.url }}" + item_id,
+                {#                    data: {csrfmiddlewaretoken: '{{csrf_token}}'},#}
+                success: function (data) {
+                    layer.close(index);
+                    if ("success" == data) {
+                        show_info_msg("删除成功");
+                    } else {
+                        show_info_msg("删除失败");
+                    }
+                    current_table.ajax.reload()
+                }
+            });
+        }, function (index) {
+            layer.close(index);
+        });
+    }
+
+    function update_item(item_id) {
+        $("#add_status").val("");
+        showFrameDialog({
+            content: ['{{ actions.update.url }}' + item_id,],
+            title: '{{ actions.update.title }}',
+            area: ['900px', '520px'],
+            closeBtn: 1,
+            end: function () {
+                var add_status = $("#add_status").val();
+                if ("success" == add_status) {
+                    show_info_msg("保存成功");
+                    current_table.ajax.reload()
+                } else if ("fail" == add_status) {
+                    show_info_msg("保存失败");
+                }
+            }
+        });
+
+    }
+</script>

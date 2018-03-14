@@ -1,0 +1,30 @@
+<!-- 内容顶部导航 -->
+<div class="row wrapper border-bottom white-bg page-heading">
+    <div class="col-lg-10">
+
+        {% for path in paths %}
+            {% if forloop.last %}
+                <h2>{{ path.name }}</h2>
+            {% endif %}
+        {% endfor %}
+
+        <ol class="breadcrumb">
+            {% for path in paths %}
+                {% if forloop.last %}
+                    <li class="active">
+                        <strong>{{ path.name }}</strong>
+                    </li>
+                {% else %}
+                    <li>
+                        <a >{{ path.name }}</a>
+                    </li>
+                {% endif %}
+
+            {% endfor %}
+
+        </ol>
+    </div>
+    <div class="col-lg-2">
+
+    </div>
+</div>

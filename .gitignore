@@ -1,0 +1,10 @@
+*.py[cod]
+
+*.sqlite3
+
+*.conf
+
+*.xml
+*.iml
+.idea
+*.log

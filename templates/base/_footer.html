@@ -1,0 +1,160 @@
+{% load static %}
+<!-- Mainly scripts -->
+<script src="{% static 'js/jquery-2.1.1.js' %}"></script>
+<script src="{% static 'js/bootstrap.min.js' %}"></script>
+<script src="{% static 'js/plugins/metisMenu/jquery.metisMenu.js' %}"></script>
+<script src="{% static 'js/plugins/slimscroll/jquery.slimscroll.min.js' %}"></script>
+
+<!-- Flot -->
+<script src="{% static 'js/plugins/flot/jquery.flot.js' %}"></script>
+<script src="{% static 'js/plugins/flot/jquery.flot.tooltip.min.js' %}"></script>
+<script src="{% static 'js/plugins/flot/jquery.flot.spline.js' %}"></script>
+<script src="{% static 'js/plugins/flot/jquery.flot.resize.js' %}"></script>
+<script src="{% static 'js/plugins/flot/jquery.flot.pie.js' %}"></script>
+
+<!-- Peity -->
+<script src="{% static 'js/plugins/peity/jquery.peity.min.js' %}"></script>
+<script src="{% static 'js/demo/peity-demo.js' %}"></script>
+
+<!-- Custom and plugin javascript -->
+<script src="{% static 'js/inspinia.js' %}"></script>
+<script src="{% static 'js/plugins/pace/pace.min.js' %}"></script>
+
+<!-- jQuery UI -->
+<script src="{% static  'js/plugins/jquery-ui/jquery-ui.min.js' %}"></script>
+
+<!-- GITTER -->
+<script src="{% static 'js/plugins/gritter/jquery.gritter.min.js' %}"></script>
+
+<!-- Sparkline -->
+<script src="{% static 'js/plugins/sparkline/jquery.sparkline.min.js' %}"></script>
+
+<!-- Sparkline demo data  -->
+<script src="{% static 'js/demo/sparkline-demo.js' %}"></script>
+
+<!-- ChartJS-->
+<script src="{% static 'js/plugins/chartJs/Chart.min.js' %}"></script>
+
+<!-- Toastr -->
+<script src="{% static 'js/plugins/toastr/toastr.min.js' %}"></script>
+
+<script src="{% static 'js/django_csrf.js' %}"></script>
+
+<script>
+    var current_url = window.location.pathname;
+    var all_nav_li = $(".left_nav li");
+    $.each(all_nav_li, function () {
+        var current_li = $(this);
+        var all_a = $(this).children("a");
+        $.each(all_a, function () {
+
+            var current_a_href = $(this).attr("href");
+{#            console.log(current_url)#}
+{#            console.log(current_a_href)#}
+            if (current_url == current_a_href) {
+                current_li.addClass("active");
+                $(this).parents("li").addClass("active");
+            }
+        })
+    })
+</script>
+<script>
+    toastr.options = {
+        closeButton: true,
+        progressBar: true,
+        showMethod: 'slideDown'
+    };
+    function success_nofity(title, body, timeout) {
+        toastr.options = timeout;
+        toastr.success(body, title);
+
+    }
+    function error_nofity(title, body, timeout) {
+        toastr.options = timeout;
+        toastr.error(body, title);
+    }
+    function info_nofity(title, body, timeout) {
+        toastr.options = timeout;
+        toastr.info(body, title);
+    }
+</script>
+
+
+<script>
+    function showDataTable(obj, options) {
+        var responsiveHelper_datatable_fixed_column = undefined;
+        var breakpointDefinition = {
+            tablet: 1024,
+            phone: 480
+        };
+        var defaults = {
+
+            dom: '<"html5buttons"B><"pull-right"f>lTgtpr',
+            processing: true,
+            serverSide: true,
+            destroy: true,
+            lengthMenu: [[10, 25, 50, -1], [10, 25, 50, "All"]],
+            autoWidth: true,
+            language: {
+                {#                processing : "<img src='/static/img/waiting.gif' width=25px>",#}
+                processing: "加载中...",
+                sLengthMenu: "显示 _MENU_ 条记录",
+                sZeroRecords: "对不起，查询不到相关数据！",
+                sEmptyTable: "表中无数据存在！",
+                sInfo: "当前显示 _START_ 到 _END_ 条，共 _TOTAL_ 条记录",
+                sInfoFiltered: "数据表中共为 _MAX_ 条记录",
+                search: "搜索",
+                paginate: {
+                    'first': '第一页',
+                    'last': '最后一页',
+                    'next': '下一页',
+                    'previous': '上一页'
+                },
+                infoEmpty: '没有数据',
+            },
+            select: {
+                style: 'os',
+                selector: 'td:first-child',
+                {#                style: 'multi'#}
+            },
+
+
+        };
+        var all_options = $.extend(defaults, options);
+        return obj.DataTable(all_options);
+    }
+</script>
+<script src="{% static 'js/plugins/layer/layer.js' %}"></script>
+<script>
+    function showFrameDialog(options) {
+        defaults = {
+            type: 2,
+            title: false,
+            closeBtn: 0,
+            area: ['700px', '500px'],
+            //maxmin: true,
+            shadeClose: false, //点击遮罩关闭
+        }
+        var all_options = $.extend(defaults, options);
+        layer.open(all_options);
+    }
+    function showValidateFrame(response) {
+        layer.open({
+            title: '校验失败',
+            type: 1,
+            area: ['620px', '440px'], //宽高
+            content: "<div style='height:100%;margin-top: 16px;'>" + response + "</div>"
+        });
+    }
+    function close_dialog(){
+        var index = parent.layer.getFrameIndex(window.name);
+        parent.layer.close(index);
+    }
+
+    function show_info_msg(msgText) {
+        layer.msg(msgText, {
+            time: 3000,
+            btn: ['知道了']
+        });
+    }
+</script>

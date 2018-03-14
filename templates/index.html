@@ -1,0 +1,246 @@
+{% extends 'base/base.html' %}
+{% load static %}
+{% block head %}
+
+    <link href="{% static 'css/highcharts.css' %}" rel="stylesheet">
+{% endblock %}
+{% block content %}
+    <div class="row  border-bottom white-bg dashboard-header">
+
+        <div class="col-sm-3">
+            <h2>最近24小时查询统计</h2>
+            <small>数据库查询次数排序</small>
+            <ul class="list-group clear-list m-t">
+                {% for item in recent_24_hours_records_top  %}
+                <li class="list-group-item fist-item">
+                            <span class="pull-right">
+                                {{ item.2 }}次
+                            </span>
+                    <span class="label label-success">{{ forloop.counter  }}</span> {{ item.0 }} ({{ item.1 }})
+                </li>
+                {% endfor %}
+
+            </ul>
+        </div>
+        <div class="col-sm-6">
+{#            <div class="flot-chart dashboard-chart">#}
+            <div  >
+{#                <div class="flot-chart-content" id="flot-dashboard-chart"></div>#}
+                <div id="container" style="min-width:400px;height:260px"></div>
+            </div>
+{#            <div class="row text-left">#}
+{#                <div class="col-xs-4">#}
+{#                    <div class=" m-l-md">#}
+{#                        <span class="h4 font-bold m-t block">最近7天查询情况</span>#}
+{#                        <small class="text-muted m-b block">查询汇总</small>#}
+{#                    </div>#}
+{#                </div>#}
+{#            </div>#}
+        </div>
+        <div class="col-sm-3">
+            <div class="statistic-box">
+                <h4>
+                    查询成功率统计
+                </h4>
+                <p>
+                    最近7天查询成功率统计
+                </p>
+                <div class="row text-center">
+
+                    <div class="col-lg-6">
+                        <canvas id="doughnutChart" width="78" height="78"></canvas>
+                        <h5>查询结果图</h5>
+                    </div>
+                </div>
+                <div class="m-t">
+                    <small>查询结果仅汇总最近七天</small>
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="wrapper wrapper-content">
+                <div class="row">
+                    <div class="col-lg-4">
+                        <div class="ibox float-e-margins">
+                            <div class="ibox-title">
+                                <h5>查询记录</h5>
+{#                                <div class="ibox-tools">#}
+{#                                    <span class="label label-warning-light pull-right">今天有10个查询</span>#}
+{#                                </div>#}
+                            </div>
+                            <div class="ibox-content">
+
+                                <div>
+                                    <div class="feed-activity-list">
+                                        {% for record in recent_record %}
+                                            <div class="feed-element">
+                                                <div class="media-body ">
+                                                    <small class="pull-right">{{ record.created_time }}</small>
+                                                    <a><strong>{{ record.created_user }}</strong> 查询{{ record.database__db_name }}</a> <br>
+                                                    <small class="text-muted">{{ record.message }}.</small>
+                                                </div>
+                                            </div>
+                                        {% endfor %}
+
+                                    </div>
+
+                                    <button class="btn btn-primary btn-block m-t"><i
+                                            class="fa fa-arrow-down"></i>
+                                        显示更多
+                                    </button>
+                                </div>
+
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="col-lg-4">
+                        <div class="ibox float-e-margins">
+                            <div class="ibox-title">
+                                <h5>操作记录</h5>
+{#                                <div class="ibox-tools">#}
+{#                                    <span class="label label-warning-light pull-right">今天有10个查询</span>#}
+{#                                </div>#}
+                            </div>
+                            <div class="ibox-content">
+
+                                <div>
+                                    <div class="feed-activity-list">
+                                        {% for record in recent_record %}
+                                            <div class="feed-element">
+                                                <div class="media-body ">
+                                                    <small class="pull-right">{{ record.created_time }}</small>
+                                                    <a><strong>{{ record.created_user }}</strong> 查询{{ record.database__db_name }}</a> <br>
+                                                    <small class="text-muted">{{ record.message }}.</small>
+                                                </div>
+                                            </div>
+                                        {% endfor %}
+
+                                    </div>
+
+                                    <button class="btn btn-primary btn-block m-t"><i
+                                            class="fa fa-arrow-down"></i>
+                                        显示更多
+                                    </button>
+                                </div>
+
+                            </div>
+                        </div>
+
+                    </div>
+
+                </div>
+            </div>
+            <div class="footer">
+                <div class="pull-right">
+                    10GB of <strong>250GB</strong> Free.
+                </div>
+                <div>
+                    <strong>Copyright</strong> Example Company &copy; 2014-2015
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block script %}
+    <script src="{% static 'js/highcharts.js' %}"></script>
+    <script>
+{#            $.gritter.add(#}
+{#                {#}
+{#                    title: '提示',#}
+{#                    text: "测试提醒",#}
+{#                    class_name: 'gritter-info gritter-center',#}
+{#                    position: 'bottom-right ',#}
+{#                    time: 5000#}
+{#                }#}
+{#            );#}
+        $(document).ready(function () {
+
+            setTimeout(function () {
+                toastr.options = {
+                    closeButton: true,
+                    progressBar: true,
+                    showMethod: 'slideDown',
+                    timeOut: 2000
+                };
+                toastr.success('数据库查询系统', '欢迎使用');
+
+            }, 1300);
+
+            $('#container').highcharts({
+                chart: {
+                    type: 'column'
+                },
+                credits: {
+                    enabled: false
+                },
+                title: {
+                    text: '最近7天查询情况'
+                },
+                xAxis: {
+                    categories: [{% for data  in  recent_7_days_success_compare %}"{{ data.created_date }}",{% endfor %}]
+                },
+                yAxis: {
+                    min: 0,
+                    title: {
+                        text: '查询汇总'
+                    }
+                },
+                tooltip: {
+                    pointFormat: '<span style="color:{series.color}">{series.name}</span>: <b>{point.y}</b> ({point.percentage:.0f}%)<br/>',
+                    shared: true
+                },
+                plotOptions: {
+                    column: {
+                        stacking: 'percent'
+                    }
+                },
+                series: [{
+                    name: '成功',
+                    data: [{% for data  in  recent_7_days_success_compare %}{{ data.success }},{% endfor %}],
+                    color:"#99FF82"
+                }, {
+                    name: '失败',
+                    data: [{% for data  in  recent_7_days_success_compare %}{{ data.error }},{% endfor %}],
+                    color:"#FF706B"
+                }]
+            });
+
+
+            var doughnutData = [
+                {
+                    value: 300,
+                    color: "#a3e1d4",
+                    highlight: "#1ab394",
+                    label: "成功数"
+                },
+                {
+                    value: 100,
+                    color: "#A4CEE8",
+                    highlight: "#1ab394",
+                    label: "失败数"
+                }
+            ];
+
+            var doughnutOptions = {
+                segmentShowStroke: true,
+                segmentStrokeColor: "#fff",
+                segmentStrokeWidth: 2,
+                percentageInnerCutout: 45, // This is 0 for Pie charts
+                animationSteps: 100,
+                animationEasing: "easeOutBounce",
+                animateRotate: true,
+                animateScale: false
+            };
+
+            var ctx = document.getElementById("doughnutChart").getContext("2d");
+            var DoughnutChart = new Chart(ctx).Doughnut(doughnutData, doughnutOptions);
+
+        });
+    </script>
+{% endblock %}

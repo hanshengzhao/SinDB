@@ -1,0 +1,51 @@
+{% extends 'base/base_form.html' %}
+{% block form %}
+    {% for field in add_or_update_form %}
+        <div class="form-group"><label class="col-lg-2 control-label">{{ field.label_tag }}</label>
+
+            <div class="col-lg-10">{{ field }} <span
+                    class="help-block m-b-none">{{ field.errors }}</span>
+            </div>
+        </div>
+
+    {% endfor %}
+
+{% endblock %}
+
+{% block script %}
+    <script>
+        $(document).ready(function () {
+            $("#base_form").submit(function () {
+                var data = $(this).serialize();
+                var ii = layer.load();
+                $.ajax({
+                    type: $(this).attr('method'),
+                    url: window.location.pathname,
+                    data: data,
+                    beforeSend: function (XMLHttpRequest) {
+
+                    },
+                    success: function (response) {
+                        layer.close(ii);
+                        if ("success" == response) {
+                            parent.$('#add_status').val('success');
+                            close_dialog()
+                        } else if ("fail" == response) {
+                            show_info_msg("服务器返回fail");
+                        } else {
+                            showValidateFrame(response)
+                        }
+                    },
+                    complete: function (XMLHttpRequest, textStatus) {
+
+                    },
+                    error: function (response) {
+                        layer.close(ii);
+                        show_info_msg("Ajax Error");
+                    }
+                });
+                return false;
+            });
+        });
+    </script>
+{% endblock %}
