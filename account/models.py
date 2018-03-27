@@ -10,8 +10,8 @@ from libs.utils.common_data.cmdb_data import get_projects
 # 查询权限
 class Select_Permission(Common_Info):
     permission_name = models.CharField('权限名称', max_length=128)
-    database = models.ManyToManyField(DataBases, verbose_name='数据库',blank=True)
-    project = models.CharField('项目组', max_length=128, choices=get_projects(), null=True, blank=True)
+    database = models.ManyToManyField(DataBases, verbose_name='数据库权限',blank=True)
+    project = models.CharField('项目组权限', max_length=128, choices=get_projects(), null=True, blank=True)
     common = models.TextField('备注')
 
     def __str__(self):

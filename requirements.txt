@@ -3,3 +3,5 @@ itsdangerous==0.24
 tornado==4.5.3
 urllib3==1.22
 webservices==0.7
+requests
+pyCrypto

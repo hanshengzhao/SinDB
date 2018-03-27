@@ -46,6 +46,7 @@ def index_view(request):
                                                  "message").all().order_by("-created_time")[:5]
     # 获取最近的用户操作记录
     # recent_log = LogEntry.objects.values("id","user","action_time")[:5]
+    page_title = "首页"
     return render(request, 'index.html', locals())
 
 

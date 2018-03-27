@@ -7,8 +7,11 @@ admin.site.site_header = 'SinDB 数据库查询系统'
 admin.site.site_title = 'SinDB 数据库查询系统'
 
 
-def get_all_field(model_name, id=True):
-    list_1 = [x.name for x in model_name._meta.fields]
+def get_all_field(model_name, id=True,exclude=[]):
+    if exclude:
+        list_1 = [x.name for x in model_name._meta.fields if x.name not in exclude ]
+    else:
+        list_1 = [x.name for x in model_name._meta.fields]
     if id:
         return list_1
     else:

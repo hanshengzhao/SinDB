@@ -11,13 +11,14 @@ from urllib.parse import quote
 
 # 从cmdb获取所有项目组
 def get_projects():
-    print("获取projects")
+    # print("获取projects")
     # todo 修改为 缓存方式的
-    conf = Config()
-    url = conf.get('project_info', 'url')
-    url = quote(url, safe='?|/|=|&|:')
+
     try:
-        res = requests.get(url, timeout=10)
+        conf = Config()
+        url = conf.get('project_info', 'url')
+        url = quote(url, safe='?|/|=|&|:')
+        res = requests.get(url, timeout=5)
         ret = res.json()['data']
         ret_tuple = tuple(map(lambda x: (x['project']['en_name'], x['project']['ch_name']), ret))
     except Exception as e:

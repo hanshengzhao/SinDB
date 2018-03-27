@@ -20,6 +20,8 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = '!gng=aco%%)i@r2y6$hmht6aw)a1&v9_$cdnjugy2txd%$gl$7'
+SECRET_KEY_FOR_AES = '!gng=aco%%)i@r2y'
+
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -38,7 +40,7 @@ INSTALLED_APPS = [
     'account.apps.AccountConfig',
     'db_manage.apps.DbManageConfig',
     'db_query.apps.DbQueryConfig',
-    'rest_framework',
+    # 'rest_framework',
 ]
 
 MIDDLEWARE = [
@@ -76,9 +78,17 @@ WSGI_APPLICATION = 'SinDB.wsgi.application'
 # https://docs.djangoproject.com/en/2.0/ref/settings/#databases
 
 DATABASES = {
+    # 'default': {
+    #     'ENGINE': 'django.db.backends.sqlite3',
+    #     'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+    # },
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'SinDB',
+        'USER': 'root',
+        'PASSWORD': 'root',
+        'HOST': '172.17.32.218',  # Or an IP Address that your DB is hosted on
+        'PORT': '3306',
     }
 }
 
@@ -123,6 +133,7 @@ STATICFILES_DIRS = (
 )
 
 # STATIC_ROOT = '/var/www/html'
+STATOC_ROOT = STATICFILES_DIRS
 
 #  session
 SESSION_EXPIRE_AT_BROWSER_CLOSE = False

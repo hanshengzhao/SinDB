@@ -7,14 +7,14 @@ from logging import getLogger
 logger = getLogger('SinDB')
 
 
-class Base_MySQL_Filter:
+class Base_SQL_Filter:
     """
     基础 Filter
     """
     pass
 
 
-class Empty_Filter(Base_MySQL_Filter):
+class Empty_Filter(Base_SQL_Filter):
     # 为空 过滤器
     def __init__(self):
         logger.debug("开始过滤为空%s的sql")
@@ -30,7 +30,7 @@ class Empty_Filter(Base_MySQL_Filter):
         return desc
 
 
-class NoContain_Filter(Base_MySQL_Filter):
+class NoContain_Filter(Base_SQL_Filter):
     # 通用 不包含 过滤器
     def __init__(self, filter_str):
         self.filter_str = filter_str
@@ -52,7 +52,7 @@ class No_Select_Filter(NoContain_Filter):
         super(No_Select_Filter, self).__init__("select")
 
 
-class Contain_Filter(Base_MySQL_Filter):
+class Contain_Filter(Base_SQL_Filter):
     # 通用 包含 过滤器
     def __init__(self, filter_str):
         self.filter_str = filter_str

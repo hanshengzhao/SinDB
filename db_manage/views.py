@@ -15,30 +15,30 @@ from libs.base_view import Add_View, Delete_View, Update_View, get_buttons_html
 def mysql_view(request):
     paths = [
         {"name": "数据库管理", },
-        {"name": "mysql 数据库", },
+        {"name": " 数据库", },
     ]
-    page_title = "mysql列表"
+    page_title = "数据库列表"
     actions = {
         "add": {
-            "url": reverse("add_mysql"),
+            "url": reverse("add_database"),
             "title": "添加新数据库",
             "size_y": "600px",
         },
         "delete": {
-            "url": '/databases/mysql/delete/',
+            "url": '/databases/delete/',
             "title": "删除数据库",
         },
         "update": {
-            "url": '/databases/mysql/update/',
+            "url": '/databases/update/',
             "title": "更新数据库",
         },
     }
-    return render(request, 'db_manage/mysql_db.html', locals())
+    return render(request, 'db_manage/db.html', locals())
 
 
-class MysqlList(BaseDatatableView):
+class DatabaseList(BaseDatatableView):
     """
-        mysql 数据库列表
+         数据库列表
     """
     model = DataBases
 
@@ -73,16 +73,16 @@ class MysqlList(BaseDatatableView):
             operate_html = get_buttons_html(buttons_info)
             return operate_html
         else:
-            return super(MysqlList, self).render_column(row, column)
+            return super(DatabaseList, self).render_column(row, column)
 
     def get_initial_queryset(self):
-        return DataBases.objects.all()
+        return DataBases.objects.exclude(db_status="delete")
 
     def filter_queryset(self, qs):
         qs_params = None
         search = self.request.POST.get('search[value]', None)
         if search:
-            q = Q(username__contains=search)
+            q = Q(db_name__contains=search)
             qs_params = qs_params | q if qs_params else q
             qs = qs.filter(qs_params)
         return qs
@@ -95,6 +95,10 @@ class Database_Add(Add_View):
 
     def _handler_item(self, request, item):
         item.created_user = request.user
+        if item.db_type == "mysql":
+            item.db_driver = "pymysql"
+        elif item.db_type == "oracle":
+            item.db_driver = "cx_oracle"
 
 
 class Database_Delete(Delete_View):
@@ -105,3 +109,10 @@ class Database_Update(Update_View):
     model = DataBases
     form = AddDatabaseForm
     form_title = "修改数据库"
+
+    def _handler_item(self, request, item):
+        print(item.db_type)
+        if item.db_type == "mysql":
+            item.db_driver = "pymysql"
+        elif item.db_type == "oracle":
+            item.db_driver = "cx_oracle"

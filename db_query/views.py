@@ -82,10 +82,10 @@ def query_sql(request):
         for permission in all_permission:
             if permission.project:
                 #  如果权限中勾选了项目组，所有属于该项目的数据库 都需要可查询
-                for db in DataBases.objects.filter(project__contains=permission.project):
+                for db in DataBases.objects.exclude(db_status="delete").filter(project__contains=permission.project):
                     databases.append(db)
                     # projects.append(permission.project)
-            for data in permission.database.all().only("db_name", "id", "db_database"):
+            for data in permission.database.exclude(db_status="delete").only("db_name", "id", "db_database"):
                 databases.append(data)
         databases = set(databases)
         return render(request, 'db_query/index.html', locals())
@@ -131,4 +131,4 @@ class Query_Record_List(BaseDatatableView):
             qs = qs.filter(qs_params)
         return qs
 
-# todo  数据库连接状态判断
+#   数据库连接状态判断

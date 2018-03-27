@@ -23,7 +23,8 @@ class LazyEncoder(DjangoJSONEncoder):
             return force_text(obj)
         elif isinstance(obj, datetime.datetime):
             # 处理时间为本地时间
-            return localtime(obj.replace(tzinfo=utc)).strftime("%Y-%m-%d %H:%M:%S")
+            # return localtime(obj.replace(tzinfo=utc)).strftime("%Y-%m-%d %H:%M:%S")
+            return obj.strftime("%Y-%m-%d %H:%M:%S")
         return super(LazyEncoder, self).default(obj)
 
 
