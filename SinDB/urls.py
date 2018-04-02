@@ -62,3 +62,5 @@ urlpatterns += required(
     login_required,
     urlpatterns_login
 )
+
+

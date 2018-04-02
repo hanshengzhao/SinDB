@@ -76,7 +76,7 @@ class DatabaseList(BaseDatatableView):
             return super(DatabaseList, self).render_column(row, column)
 
     def get_initial_queryset(self):
-        return DataBases.objects.exclude(db_status="delete")
+        return DataBases.normal_objects.all()
 
     def filter_queryset(self, qs):
         qs_params = None

@@ -14,6 +14,7 @@ from libs.utils.common_data.cmdb_data import get_projects
 
 
 class DataBaseManagerNormal(models.Manager):
+
     def get_queryset(self):
         # 删除的不返回
         return super().get_queryset().exclude(db_status="delete")
@@ -40,6 +41,7 @@ class DataBases(Common_Info):
     notify_email = models.CharField('提醒邮件', max_length=128, blank=True, null=True)
     db_status = models.CharField('数据库状态', choices=db_status_choice, max_length=128, blank=True, null=True)
     normal_objects = DataBaseManagerNormal()
+    objects = models.Manager()
 
     def __str__(self):
         return "%s:%s" % (self.db_name, self.db_database)
